@@ -23,7 +23,7 @@ class TestGreenhouse(TestCase):
         self.assertRaises(GreenhouseError, greenhouse.measure_soil_moisture)
 
     @patch.object(Seesaw, "moisture_read")
-    def test_read_moisture_greater_than_500(self, moisture_sensor: Mock):
+    def test_read_moisture_higher_than_500(self, moisture_sensor: Mock):
         greenhouse = Greenhouse()
         moisture_sensor.return_value = 501
         self.assertRaises(GreenhouseError, greenhouse.measure_soil_moisture)
@@ -55,4 +55,14 @@ class TestGreenhouse(TestCase):
         greenhouse.manage_sprinkler()
         self.assertTrue(greenhouse.sprinkler_on)
         sprinkler.assert_called_once_with(greenhouse.SPRINKLER_PIN, True)
+
+    @patch.object(GPIO, "output")
+    @patch.object(Seesaw, "moisture_read")
+    def test_sprinkler_is_turned_off_when_moisture_level_is_higher_than_425(self, moisture_sensor: Mock, sprinkler: Mock):
+        greenhouse = Greenhouse()
+        moisture_sensor.return_value = 426
+        greenhouse.sprinkler_on = True
+        greenhouse.manage_sprinkler()
+        self.assertFalse(greenhouse.sprinkler_on)
+        sprinkler.assert_called_once_with(greenhouse.SPRINKLER_PIN, False)
 
