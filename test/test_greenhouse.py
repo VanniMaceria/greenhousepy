@@ -46,5 +46,13 @@ class TestGreenhouse(TestCase):
         self.assertFalse(greenhouse.sprinkler_on)
         sprinkler.assert_called_once_with(greenhouse.SPRINKLER_PIN, False)
 
-
+    @patch.object(GPIO, "output")
+    @patch.object(Seesaw, "moisture_read")
+    def test_sprinkler_is_turned_on_when_moisture_level_is_lower_than_375(self, moisture_sensor: Mock, sprinkler: Mock):
+        greenhouse = Greenhouse()
+        moisture_sensor.return_value = 374
+        greenhouse.sprinkler_on = False
+        greenhouse.manage_sprinkler()
+        self.assertTrue(greenhouse.sprinkler_on)
+        sprinkler.assert_called_once_with(greenhouse.SPRINKLER_PIN, True)
 
