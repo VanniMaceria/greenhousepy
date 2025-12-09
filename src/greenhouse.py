@@ -44,7 +44,7 @@ class Greenhouse:
         moisture_level = self.measure_soil_moisture()
         if moisture_level < 375 and not self.sprinkler_on:
             self.turn_on_sprinkler()
-        else:
+        else :
             self.turn_off_sprinkler()
 
     def check_too_much_light(self) -> bool:
