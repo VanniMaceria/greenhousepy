@@ -27,7 +27,10 @@ class Greenhouse:
         self.red_light_on = False
 
     def measure_soil_moisture(self) -> int:
-        return self.soil_moisture_sensor.moisture_read()
+        moisture_level = self.soil_moisture_sensor.moisture_read()
+        if moisture_level < 300 or moisture_level > 500:
+            raise GreenhouseError("Moisture level out of range")
+        return moisture_level
 
     def turn_on_sprinkler(self) -> None:
         # To be implemented

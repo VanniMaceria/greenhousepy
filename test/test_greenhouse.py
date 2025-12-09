@@ -20,7 +20,6 @@ class TestGreenhouse(TestCase):
     def test_read_moisture_out_of_range(self, moisture_sensor: Mock):
         greenhouse = Greenhouse()
         moisture_sensor.return_value = 250
-        moisture_level = greenhouse.measure_soil_moisture()
         self.assertRaises(GreenhouseError, greenhouse.measure_soil_moisture)
 
 
