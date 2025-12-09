@@ -46,13 +46,11 @@ class Greenhouse:
             self.turn_on_sprinkler()
         elif moisture_level > 425 and self.sprinkler_on:
             self.turn_off_sprinkler()
-        # Remove the redundant condition
         elif 375 <= moisture_level <= 425:
             GPIO.output(self.SPRINKLER_PIN, self.sprinkler_on)
 
     def check_too_much_light(self) -> bool:
-        # To be implemented
-        pass
+        return GPIO.input(self.PHOTO_PIN)
 
     def manage_lightbulb(self) -> None:
         # To be implemented
