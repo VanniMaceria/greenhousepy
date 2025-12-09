@@ -27,8 +27,7 @@ class Greenhouse:
         self.red_light_on = False
 
     def measure_soil_moisture(self) -> int:
-        # To be implemented
-        pass
+        return self.soil_moisture_sensor.moisture_read()
 
     def turn_on_sprinkler(self) -> None:
         # To be implemented
@@ -53,4 +52,3 @@ class Greenhouse:
 
 class GreenhouseError(Exception):
     pass
-
