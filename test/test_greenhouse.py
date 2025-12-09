@@ -28,4 +28,15 @@ class TestGreenhouse(TestCase):
         moisture_sensor.return_value = 501
         self.assertRaises(GreenhouseError, greenhouse.measure_soil_moisture)
 
+    @patch.object(GPIO, "output")
+    def test_sprinkler_is_turned_on(self, sprinkler: Mock):
+        #variabile di stato -> output diretto
+        #assert called -> output indiretto
+        greenhouse = Greenhouse()
+        greenhouse.sprinkler_on = False
+        greenhouse.turn_on_sprinkler()
+        self.assertTrue(greenhouse.sprinkler_on)
+        sprinkler.assert_called_once_with(greenhouse.SPRINKLER_PIN, True)
+
+
 
