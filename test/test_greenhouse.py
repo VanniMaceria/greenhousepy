@@ -2,6 +2,8 @@ from unittest import TestCase
 from unittest.mock import patch
 from unittest.mock import Mock
 
+from google_crc32c import value
+
 from mock import GPIO
 from mock.seesaw import Seesaw
 from src.greenhouse import Greenhouse, GreenhouseError
@@ -99,5 +101,15 @@ class TestGreenhouse(TestCase):
         photoresistor.return_value = False
         outcome = greenhouse.check_too_much_light()
         self.assertFalse(outcome, False)
+
+    @patch.object(GPIO, "input")
+    @patch.object(GPIO, "output")
+    def test_turn_on_light_bulb_when_too_much_light(self, lightbulb: Mock, photoresistor: Mock):
+        greenhouse = Greenhouse()
+        photoresistor.return_value = value
+        greenhouse.red_light_on = False
+        greenhouse.manage_lightbulb()
+        self.assertTrue(greenhouse.red_light_on)
+        lightbulb.assert_called_once_with(greenhouse.LED_PIN, True)
 
 
