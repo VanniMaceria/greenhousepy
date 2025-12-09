@@ -56,6 +56,9 @@ class Greenhouse:
         if self.check_too_much_light():
             self.red_light_on = True
             GPIO.output(self.LED_PIN, True)
+        else:
+            self.red_light_on = False
+            GPIO.output(self.LED_PIN, False)
 
 
 class GreenhouseError(Exception):

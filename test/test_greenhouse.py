@@ -106,10 +106,20 @@ class TestGreenhouse(TestCase):
     @patch.object(GPIO, "output")
     def test_turn_on_light_bulb_when_too_much_light(self, lightbulb: Mock, photoresistor: Mock):
         greenhouse = Greenhouse()
-        photoresistor.return_value = value
+        photoresistor.return_value = True
         greenhouse.red_light_on = False
         greenhouse.manage_lightbulb()
         self.assertTrue(greenhouse.red_light_on)
         lightbulb.assert_called_once_with(greenhouse.LED_PIN, True)
+
+    @patch.object(GPIO, "input")
+    @patch.object(GPIO, "output")
+    def test_turn_off_light_bulb_when_not_too_much_light(self, lightbulb: Mock, photoresistor: Mock):
+        greenhouse = Greenhouse()
+        photoresistor.return_value = False
+        greenhouse.red_light_on = True
+        greenhouse.manage_lightbulb()
+        self.assertFalse(greenhouse.red_light_on)
+        lightbulb.assert_called_once_with(greenhouse.LED_PIN, False)
 
 
