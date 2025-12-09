@@ -93,4 +93,11 @@ class TestGreenhouse(TestCase):
         outcome = greenhouse.check_too_much_light()
         self.assertTrue(outcome, True)
 
+    @patch.object(GPIO, "input")
+    def test_greenhouse_has_not_too_much_light(self, photoresistor: Mock):
+        greenhouse = Greenhouse()
+        photoresistor.return_value = False
+        outcome = greenhouse.check_too_much_light()
+        self.assertFalse(outcome, False)
+
 
