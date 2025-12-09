@@ -37,8 +37,8 @@ class Greenhouse:
         GPIO.output(self.SPRINKLER_PIN, True)
 
     def turn_off_sprinkler(self) -> None:
-        # To be implemented
-        pass
+        self.sprinkler_on = False
+        GPIO.output(self.SPRINKLER_PIN, False)
 
     def manage_sprinkler(self) -> None:
         # To be implemented
